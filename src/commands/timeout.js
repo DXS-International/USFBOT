@@ -10,7 +10,7 @@ module.exports = {
     	.addStringOption(option=>option.setName('reason').setDescription('Reason of the timeout'))
     	.setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: 64 });
         const member = interaction.options.getMember('target');
         const target = await interaction.guild.members.fetch(member.user.id)
         let errorcase = new EmbedBuilder()

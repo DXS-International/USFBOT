@@ -14,7 +14,7 @@ module.exports = {
     	.addStringOption(option=>option.setName('description').setDescription('Describe in detail what you want to add/change').setRequired(true))
     	.setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true })
+        await interaction.deferReply({ flags: 64 })
         const type = interaction.options.getString('type');
         const description = interaction.options.getString('description');
         const ask = new EmbedBuilder()
@@ -33,12 +33,12 @@ module.exports = {
         	.setEmoji('✅');
         const row = new ActionRowBuilder()
         	.addComponents(cancel, confirm);
-        const response = await interaction.editReply({embeds: [ask], components: [row], ephemeral: true});
+        const response = await interaction.editReply({embeds: [ask], components: [row], flags: 64});
         const collectorFilter = i => i.user.id === interaction.user.id;
         try {
             const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
             if (confirmation.customId==='cancel') {
-                await confirmation.update({content: 'Request cancelled.', ephemeral: true, components: [], embeds: []});
+                await confirmation.update({content: 'Request cancelled.', flags: 64, components: [], embeds: []});
             } else if (confirmation.customId==='confirm') {
                 const worked = new EmbedBuilder()
                 	.setColor(0x00ff00)
@@ -49,13 +49,13 @@ module.exports = {
                 	.setTitle(`${type.toUpperCase()} Suggestion`)
                 	.setDescription(`**Explaination:** ${description}`)
                 	.setFooter({text: `Suggestion sent by ${interaction.user.username} | ${interaction.user.id}`, iconURL: `${interaction.user.displayAvatarURL({})}`});
-                await confirmation.update({ephemeral: true, embeds: [worked], components: []});
+                await confirmation.update({flags: 64, embeds: [worked], components: []});
                 const channel = interaction.client.channels.cache.get(suggestlog)
                 channel.send({embeds: [sugg]})
             }
         } catch(error) {
             console.error(error);
-            await interaction.editReply({ content: 'There was an error while sending your suggestion. Please try again later.', components: [], ephemeral: true, embeds: [] });
+            await interaction.editReply({ content: 'There was an error while sending your suggestion. Please try again later.', components: [], flags: 64, embeds: [] });
         }
     }
 }

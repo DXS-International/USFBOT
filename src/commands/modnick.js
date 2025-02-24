@@ -9,7 +9,7 @@ module.exports = {
         .addBooleanOption(option=>option.setName('notify').setDescription('Should the bot notify the user via this chat?'))
         .setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ephemeral: true});
+        await interaction.deferReply({flags: 64});
         const moderated = new EmbedBuilder()
             .setColor(0x00ff00)
             .setDescription('Nickname Successfully Moderated!');
@@ -18,10 +18,10 @@ module.exports = {
         const reason = interaction.options.getString('reason') ?? 'No Reason Provided';
         const notify = interaction.options.getBoolean('notify') ?? false;
         if (!member.manageable) {
-            return interaction.editReply({content: 'I do not have the permission to edit this user nickname', ephemeral: true})
+            return interaction.editReply({content: 'I do not have the permission to edit this user nickname', flags: 64})
         }
         if (member.permissions.has(PermissionsBitField.Flags.ManageNicknames)) {
-            return interaction.editReply({content: 'I do not have the permission to edit this user nickname', ephemeral: true})
+            return interaction.editReply({content: 'I do not have the permission to edit this user nickname', flags: 64})
         }
         try {
             const number = Math.floor(Math.random()*999999)
@@ -32,7 +32,7 @@ module.exports = {
                     .setDescription(`${member}'s nickname has been Moderated by a staff member. \n**Reason:** ${reason}`);
                 interaction.channel.send({embeds: [notifyEmbed]});
             }
-            return interaction.editReply({embeds: [moderated], ephemeral: true})
+            return interaction.editReply({embeds: [moderated], flags: 64})
         } catch (error) {
             console.log(error)
             const { erbed } = require('../embeds/embeds.js')

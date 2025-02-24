@@ -17,7 +17,7 @@ module.exports = {
         .addStringOption(option=>option.setName('option10').setDescription('Option 10'))
     	.setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ephemeral: true});
+        await interaction.deferReply({flags: 64});
         if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
             const message = interaction.options.getString('message');
             const option1 = interaction.options.getString('option1');

@@ -6,7 +6,7 @@ module.exports = {
     	.addStringOption(option=>option.setName('amount').setDescription('Amount of messages to prune').setRequired(true))
     	.setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: 64 });
         if (interaction.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
             const amount = interaction.options.getInteger('amount');
             if (amount<0||amount>200) {

@@ -324,7 +324,7 @@ module.exports = {
 
     collector.on('collect', async i => {
       if (i.user.id !== interaction.user.id) {
-        await i.reply({ content: "This isn't your search.", ephemeral: true });
+        await i.reply({ content: "This isn't your search.", flags: 64 });
         return;
       }
       const selectedIndex = parseInt(i.values[0]);

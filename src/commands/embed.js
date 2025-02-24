@@ -77,10 +77,10 @@ module.exports = {
                     if (image) {
                         embed.setImage(`attachment://${image.name}`);
                         interaction.channel.send({embeds: [embed], files: [image] });
-                        return interaction.reply({content: 'Embed Sent', ephemeral: true});
+                        return interaction.reply({content: 'Embed Sent', flags: 64});
                     }
                     interaction.channel.send({embeds: [embed] });
-                    return interaction.reply({content: 'Embed Sent', ephemeral: true});
+                    return interaction.reply({content: 'Embed Sent', flags: 64});
                 })
                 .catch(error =>{
                     console.error(error);

@@ -7,7 +7,7 @@ module.exports = {
         .addStringOption(option=>option.setName('reason').setDescription('Reason of the moderation'))
         .setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ephemeral: true})
+        await interaction.deferReply({flags: 64})
         if (interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers)) {
             const member = interaction.options.getUser('target');
             const reason = interaction.options.getString('reason') ?? `${interaction.user.username} : No reason provided`;

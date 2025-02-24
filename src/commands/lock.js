@@ -7,7 +7,7 @@ module.exports = {
     	.addStringOption(option=>option.setName('reason').setDescription('Reason of the lock').setRequired(false))
     	.setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ephemeral: true});
+        await interaction.deferReply({flags: 64});
         if (interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
             if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
                 interaction.editReply(`I'm missing the required permission to manage this channel: ManageChannels`);
@@ -22,7 +22,7 @@ module.exports = {
                     .setDescription(`Locked for reason: ${reason}`)
                     .setFooter({text: 'You are not muted, this channel is locked for everyone. Please don\'t DM people.'});
                 channel.permissionOverwrites.edit(interaction.guild.id, { SendMessages: false, AddReactions: false, SendMessagesInThreads: false, CreatePublicThreads: false, CreatePrivateThreads: false });
-                interaction.editReply({content: `Successfully locked ${channel}`, ephemeral: true});
+                interaction.editReply({content: `Successfully locked ${channel}`, flags: 64});
                 channel.send({embeds: [LockMessage]});
             } catch (e) {
                 const { erbed } = require('../embeds/embeds.js')
@@ -30,7 +30,7 @@ module.exports = {
                 return interaction.editReply({ embeds: [erbed] })
             }
         } else {
-            interaction.editReply({content: `You don't have the required permission to run this command!`, ephemeral: true});
+            interaction.editReply({content: `You don't have the required permission to run this command!`, flags: 64});
         }
     },
 };

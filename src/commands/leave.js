@@ -6,7 +6,7 @@ module.exports = {
         .setName('leave').setDescription('Team Only')
         .addStringOption(option=>option.setName('guild').setDescription('Guild').setRequired(true)),
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: 64 });
         if (!(team.includes(interaction.user.id))) {
             return interaction.editReply('Unauthorised!')
         }

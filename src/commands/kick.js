@@ -7,18 +7,18 @@ module.exports = {
     	.addStringOption(option=>option.setName('reason').setDescription('Kick reason'))
     	.setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: 64 });
         if (interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers)) {
             const member = interaction.options.getMember('target');
             const target = await interaction.guild.members.fetch(member.user.id)
             if (target.permissions.has(PermissionsBitField.Flags.KickMembers)) {
-                return interaction.editReply({content: 'You don\'t have the permission to kick this user!', ephemeral: true});
+                return interaction.editReply({content: 'You don\'t have the permission to kick this user!', flags: 64});
             }
             if (!target.manageable) {
-                return interaction.editReply({content: 'The Bot doesn\'t have the permission to kick this user!', ephemeral: true});
+                return interaction.editReply({content: 'The Bot doesn\'t have the permission to kick this user!', flags: 64});
             }
             if (!target.moderatable) {
-                return interaction.editReply({content: 'The Bot doesn\'t have the permission to kick this user!', ephemeral: true});
+                return interaction.editReply({content: 'The Bot doesn\'t have the permission to kick this user!', flags: 64});
             }
             const reason = interaction.options.getString('reason') ?? 'No reason provided';
             var kickEmbed = new EmbedBuilder()
@@ -30,7 +30,7 @@ module.exports = {
                 console.log(err);
             }
             target.kick(`${interaction.user.username}: ${reason}`)
-            	.then(interaction.editReply({embeds: [kickEmbed], ephemeral: true}))
+            	.then(interaction.editReply({embeds: [kickEmbed], flags: 64}))
             	.catch(error => {
                     console.error(error);
                     const { erbed } = require('../embeds/embeds.js')
@@ -38,7 +38,7 @@ module.exports = {
                     return interaction.editReply({ embeds: [erbed] })
                 });
         } else {
-            interaction.editReply({content: 'You are missing the `KickMembers` Permission', ephemeral: true});
+            interaction.editReply({content: 'You are missing the `KickMembers` Permission', flags: 64});
         }
     }
 }

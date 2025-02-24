@@ -12,7 +12,7 @@ module.exports = {
         .addAttachmentOption(option=>option.setName('proof').setDescription('Proof about your report'))
         .setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true })
+        await interaction.deferReply({ flags: 64 })
         const type = interaction.options.getString('type')
         const text = interaction.options.getString('description')
         const proof = interaction.options.getAttachment('proof')

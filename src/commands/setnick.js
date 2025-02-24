@@ -10,9 +10,9 @@ module.exports = {
         .addBooleanOption(option=>option.setName('notify').setDescription('Should the bot notify the user via this chat?'))
         .setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ephemeral: true});
+        await interaction.deferReply({flags: 64});
         if (!(interaction.member.permissions.has(PermissionsBitField.Flags.ManageNicknames))) {
-            return interaction.editReply({content: 'You do not have the permission to edit this user nickname', ephemeral: true})
+            return interaction.editReply({content: 'You do not have the permission to edit this user nickname', flags: 64})
         }
         const moderated = new EmbedBuilder()
             .setColor(0x00ff00)
@@ -22,10 +22,10 @@ module.exports = {
         const reason = interaction.options.getString('reason') ?? 'No Reason Provided';
         const notify = interaction.options.getBoolean('notify') ?? false;
         if (interaction.guild.ownerId===member.id) {
-            return interaction.editReply({content: 'I do not have the permission to edit this user nickname', ephemeral: true})
+            return interaction.editReply({content: 'I do not have the permission to edit this user nickname', flags: 64})
         }
         if (member.permissions.has(PermissionsBitField.Flags.ManageNicknames)) {
-            return interaction.editReply({content: 'I do not have the permission to edit this user nickname', ephemeral: true})
+            return interaction.editReply({content: 'I do not have the permission to edit this user nickname', flags: 64})
         }
         const newnick = interaction.options.getString('new-nickname');
         try {

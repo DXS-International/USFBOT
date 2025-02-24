@@ -8,7 +8,7 @@ module.exports = {
         .addStringOption(option=>option.setName('reason').setDescription('Move reason').setMaxLength(200))
         .setDMPermission(false),
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true })
+        await interaction.deferReply({ flags: 64 })
         const member = interaction.options.getMember('target')
         const target = await interaction.guild.members.fetch(member.user.id)
         const channel = interaction.options.getChannel('channel')
